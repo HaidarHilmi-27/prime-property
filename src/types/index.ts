@@ -1,5 +1,5 @@
 export type { User, UserRole } from './user'
-export type { Property, PropertyStatus, PropertyType, PropertyFilters } from './property'
+export type { Property, PropertyStatus, PropertyFilters, ReadyStatus } from './property'
 
 export interface PaginationParams {
   page: number

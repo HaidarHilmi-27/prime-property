@@ -1,43 +1,28 @@
 import { motion } from 'framer-motion'
-import { Award, Users, Building2, Globe, CheckCircle } from 'lucide-react'
-import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
-import { staggerContainer, fadeInUp } from '@/lib/animations'
-
-const milestones = [
-  { year: '2015', title: 'Founded', description: 'Prime Property established in Jakarta' },
-  { year: '2017', title: '100 Properties', description: 'Reached 100 successful transactions' },
-  { year: '2020', title: 'National Expansion', description: 'Expanded to 5 major cities' },
-  { year: '2024', title: 'Industry Leader', description: 'Recognized as top real estate agency' },
-]
+import { Building2, Eye, Target, Shield, Users, Award } from 'lucide-react'
+import { fadeInUp } from '@/lib/animations'
 
 const values = [
   {
+    icon: Shield,
+    title: 'Integritas',
+    description: 'Kami menjunjung tinggi kejujuran dan transparansi dalam setiap transaksi.',
+  },
+  {
     icon: Award,
-    title: 'Excellence',
-    description: 'We strive for the highest standards in every transaction.',
+    title: 'Kualitas',
+    description: 'Setiap properti yang kami tawarkan melalui kurasi ketat dan terpercaya.',
   },
   {
     icon: Users,
-    title: 'Integrity',
-    description: 'Honest, transparent dealings with every client.',
+    title: 'Komitmen',
+    description: 'Kepuasan klien adalah prioritas utama kami dalam setiap layanan.',
   },
   {
     icon: Building2,
-    title: 'Innovation',
-    description: 'Leveraging technology for better service delivery.',
+    title: 'Inovasi',
+    description: 'Memanfaatkan teknologi modern untuk kemudahan dan kenyamanan klien.',
   },
-  {
-    icon: Globe,
-    title: 'Community',
-    description: 'Building communities, not just selling properties.',
-  },
-]
-
-const stats = [
-  { value: '500+', label: 'Properties Sold' },
-  { value: '98%', label: 'Client Satisfaction' },
-  { value: '50+', label: 'Industry Awards' },
-  { value: '8', label: 'Office Locations' },
 ]
 
 export default function AboutPage() {
@@ -51,7 +36,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
           >
-            About Us
+            Tentang Kami
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -59,8 +44,8 @@ export default function AboutPage() {
             transition={{ delay: 0.1 }}
             className="mx-auto mt-4 max-w-3xl text-4xl font-bold text-white md:text-5xl"
           >
-            Indonesia&apos;s Premier{' '}
-            <span className="text-gold-500">Real Estate</span> Partner
+            Mitra Properti Terpercaya{' '}
+            <span className="text-gold-500">di Indonesia</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -68,126 +53,114 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="mx-auto mt-6 max-w-2xl text-neutral-400"
           >
-            With over a decade of experience, Prime Property has been helping
-            individuals and families find their perfect homes across Indonesia.
+            Prime Property hadir sebagai solusi properti terpercaya dengan pengalaman bertahun-tahun
+            melayani ribuan klien di seluruh Indonesia.
           </motion.p>
         </div>
       </section>
 
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            variants={staggerContainer}
-            className="grid items-center gap-12 lg:grid-cols-2"
-          >
-            <motion.div variants={fadeInUp}>
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
               <span className="text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase">
-                Our Story
+                Profil Perusahaan
               </span>
               <h2 className="mt-3 text-3xl font-bold text-neutral-900 md:text-4xl">
-                A Decade of Excellence in Real Estate
+                Prime Property
               </h2>
               <p className="mt-4 leading-relaxed text-neutral-600">
-                Founded in 2015, Prime Property started with a vision to
-                transform the real estate landscape in Indonesia. What began as
-                a small agency has grown into one of the most trusted property
-                firms in the nation.
+                Prime Property adalah perusahaan properti terkemuka di Indonesia yang berfokus pada
+                penyediaan properti premium berkualitas tinggi. Berdiri sejak 2015, kami telah
+                membantu ribuan keluarga dan investor menemukan properti impian mereka.
               </p>
               <p className="mt-4 leading-relaxed text-neutral-600">
-                Our commitment to quality, transparency, and client
-                satisfaction has earned us the trust of thousands of clients
-                and numerous industry accolades.
+                Dengan tim profesional yang berpengalaman dan jaringan luas di berbagai kota besar,
+                kami berkomitmen untuk memberikan pelayanan terbaik dan solusi properti yang tepat
+                bagi setiap klien.
               </p>
-              <div className="mt-6 space-y-3">
-                {[
-                  'Hand-picked premium property portfolio',
-                  'Expert team with deep local market knowledge',
-                  'End-to-end property consultation services',
-                  'Post-purchase support and property management',
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 shrink-0 text-gold-500" />
-                    <span className="text-sm text-neutral-700">{item}</span>
-                  </div>
-                ))}
-              </div>
             </motion.div>
 
             <motion.div
-              variants={fadeInUp}
-              className="relative aspect-[4/3] rounded-2xl bg-neutral-100"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative rounded-2xl bg-neutral-900 p-8 text-white lg:p-10"
             >
-              <div className="flex h-full items-center justify-center">
-                <Building2 className="h-20 w-20 text-neutral-300" />
-              </div>
-              <div className="absolute -bottom-4 -left-4 rounded-xl bg-gold-500 px-6 py-4 shadow-lg">
-                <p className="text-3xl font-bold text-neutral-900">10+</p>
-                <p className="text-xs font-medium text-neutral-800">
-                  Years of Excellence
-                </p>
+              <Building2 className="h-10 w-10 text-gold-500" />
+              <blockquote className="mt-4 text-lg leading-relaxed italic text-neutral-300">
+                &ldquo;Kami percaya bahwa setiap orang berhak mendapatkan hunian terbaik. 
+                Prime Property hadir untuk mewujudkannya dengan pelayanan profesional dan 
+                properti-properti pilihan.&rdquo;
+              </blockquote>
+              <div className="mt-6 border-t border-neutral-800 pt-4">
+                <p className="font-semibold text-white">Tim Prime Property</p>
+                <p className="text-sm text-neutral-400">Sejak 2015</p>
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="bg-neutral-50 py-20 md:py-28">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <motion.span
-              variants={fadeInUp}
-              className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="order-2 lg:order-1"
             >
-              Milestones
-            </motion.span>
-            <motion.h2
-              variants={fadeInUp}
-              className="mt-3 text-3xl font-bold text-neutral-900 md:text-4xl"
-            >
-              Our Journey
-            </motion.h2>
-          </motion.div>
-
-          <div className="relative mt-14">
-            <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-neutral-200 lg:block" />
-            <div className="space-y-10 lg:space-y-0">
-              {milestones.map((milestone, i) => (
-                <motion.div
-                  key={milestone.year}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-50px' }}
-                  className={`relative lg:flex lg:w-1/2 ${
-                    i % 2 === 0 ? 'lg:pr-12 lg:text-right' : 'lg:ml-auto lg:pl-12'
-                  }`}
-                >
-                  <div
-                    className={`rounded-xl bg-white p-6 shadow-sm ${
-                      i % 2 === 0 ? 'lg:text-right' : ''
-                    }`}
-                  >
-                    <span className="text-sm font-bold text-gold-500">
-                      {milestone.year}
-                    </span>
-                    <h3 className="mt-1 text-lg font-semibold text-neutral-900">
-                      {milestone.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-neutral-500">
-                      {milestone.description}
+              <div className="rounded-2xl bg-white p-8 shadow-sm lg:p-10">
+                <div className="flex items-start gap-4">
+                  <Target className="h-8 w-8 shrink-0 text-gold-500" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-neutral-900">Visi</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                      Menjadi perusahaan properti terdepan di Indonesia yang dikenal akan
+                      kualitas, integritas, dan inovasi dalam setiap layanan yang diberikan.
                     </p>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
+                <div className="mt-8 flex items-start gap-4">
+                  <Eye className="h-8 w-8 shrink-0 text-gold-500" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-neutral-900">Misi</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                      Menyediakan properti premium berkualitas tinggi dengan harga kompetitif,
+                      memberikan pelayanan profesional dan transparan kepada setiap klien,
+                      serta terus berinovasi untuk memberikan kemudahan dalam bertransaksi properti.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="order-1 lg:order-2"
+            >
+              <span className="text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase">
+                Visi &amp; Misi
+              </span>
+              <h2 className="mt-3 text-3xl font-bold text-neutral-900 md:text-4xl">
+                Arah dan Tujuan Kami
+              </h2>
+              <p className="mt-4 leading-relaxed text-neutral-600">
+                Visi dan misi kami menjadi pedoman dalam setiap langkah untuk memberikan
+                layanan terbaik bagi seluruh klien dan mitra bisnis.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -197,53 +170,27 @@ export default function AboutPage() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 gap-6 md:grid-cols-4"
-          >
-            {stats.map((stat) => (
-              <motion.div
-                key={stat.label}
-                variants={fadeInUp}
-                className="rounded-xl border border-neutral-200 bg-white p-6 text-center"
-              >
-                <p className="text-3xl font-bold text-gold-600">{stat.value}</p>
-                <p className="mt-1 text-sm text-neutral-500">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="bg-neutral-900 py-20 md:py-28">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            variants={staggerContainer}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
             className="text-center"
           >
-            <motion.span
-              variants={fadeInUp}
-              className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
-            >
-              Our Values
+            <motion.span variants={fadeInUp} className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase">
+              Nilai Perusahaan
             </motion.span>
-            <motion.h2
-              variants={fadeInUp}
-              className="mt-3 text-3xl font-bold text-white md:text-4xl"
-            >
-              What We Stand For
+            <motion.h2 variants={fadeInUp} className="mt-3 text-3xl font-bold text-neutral-900 md:text-4xl">
+              Yang Kami Percayai
             </motion.h2>
+            <motion.p variants={fadeInUp} className="mx-auto mt-4 max-w-2xl text-neutral-500">
+              Nilai-nilai yang menjadi fondasi setiap pelayanan yang kami berikan.
+            </motion.p>
           </motion.div>
 
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            variants={staggerContainer}
-            className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
           >
             {values.map((value) => {
               const Icon = value.icon
@@ -251,25 +198,19 @@ export default function AboutPage() {
                 <motion.div
                   key={value.title}
                   variants={fadeInUp}
-                  className="rounded-xl border border-neutral-800 bg-neutral-800/50 p-6 text-center"
+                  className="rounded-xl border border-neutral-200 bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md"
                 >
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-gold-500/10 text-gold-500">
                     <Icon className="h-6 w-6" />
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold text-white">
-                    {value.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-neutral-400">
-                    {value.description}
-                  </p>
+                  <h3 className="mt-4 text-lg font-semibold text-neutral-900">{value.title}</h3>
+                  <p className="mt-2 text-sm text-neutral-500">{value.description}</p>
                 </motion.div>
               )
             })}
           </motion.div>
         </div>
       </section>
-
-      <WhyChooseUs />
     </>
   )
 }

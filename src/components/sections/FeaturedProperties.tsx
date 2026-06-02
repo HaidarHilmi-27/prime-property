@@ -13,7 +13,7 @@ const featuredProperties = [
     beds: 4,
     baths: 3,
     area: 350,
-    image: null,
+    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',
     tag: 'Featured',
   },
   {
@@ -24,7 +24,7 @@ const featuredProperties = [
     beds: 3,
     baths: 2,
     area: 280,
-    image: null,
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
     tag: 'Premium',
   },
   {
@@ -35,7 +35,7 @@ const featuredProperties = [
     beds: 5,
     baths: 4,
     area: 500,
-    image: null,
+    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80',
     tag: 'Best Deal',
   },
 ]
@@ -86,15 +86,13 @@ export function FeaturedProperties() {
               className="group overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-neutral-200">
-                <div className="flex h-full items-center justify-center">
-                  <div className="text-center">
-                    <div className="mx-auto h-12 w-12 rounded-full bg-neutral-300" />
-                    <p className="mt-2 text-xs text-neutral-400">
-                      {property.title}
-                    </p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <img
+                  src={property.image}
+                  alt={property.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <span className="absolute left-3 top-3 rounded-md bg-gold-500 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-900">
                   {property.tag}
                 </span>

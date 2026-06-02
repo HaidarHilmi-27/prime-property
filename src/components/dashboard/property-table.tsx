@@ -1,261 +1,181 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsUpDown,
   Eye,
+  Pencil,
+  Trash2,
   Search,
-  SlidersHorizontal,
+  Plus,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
+import { useDebounce } from '@/hooks/use-debounce'
+import { useRole } from '@/hooks/use-role'
+import { hasPermission } from '@/lib/permissions'
+import { propertyService } from '@/services/property-service'
+import type { Property, PropertyFilters } from '@/types'
+import PropertyDetailDrawer from './property-detail-drawer'
 
-type PropertyStatus =
-  | 'In Stock'
-  | 'Sold Out'
-
-type ReadyStatus =
-  | 'Siap Huni'
-  | 'Siap Kosong'
-
-interface Property {
-  id: number
-  nama: string
-  group: string
-  ukuran: string
-  hadap: string
-  tipe: string
-  tingkat: number
-  harga: number
-  carport: boolean
-  status: PropertyStatus
-  siap: ReadyStatus
-  kawasan: string
-  createdAt: string
+const statusColors: Record<string, string> = {
+  'in stock': 'bg-emerald-500/10 text-emerald-400',
+  'sold_out': 'bg-[#B33A3A]/10 text-[#B33A3A]',
 }
 
-const dummyProperties: Property[] = [
-  {
-    id: 1,
-    nama: 'Emerald Residence',
-    group: 'A1',
-    ukuran: '8 x 15',
-    hadap: 'Utara',
-    tipe: 'Premium',
-    tingkat: 2,
-    harga: 1350000000,
-    carport: true,
-    status: 'In Stock',
-    siap: 'Siap Huni',
-    kawasan: 'Jakarta Selatan',
-    createdAt: '2026-01-01',
-  },
-  {
-    id: 2,
-    nama: 'Golden Valley',
-    group: 'B2',
-    ukuran: '7 x 12',
-    hadap: 'Barat',
-    tipe: 'Standard',
-    tingkat: 1,
-    harga: 980000000,
-    carport: false,
-    status: 'Sold Out',
-    siap: 'Siap Kosong',
-    kawasan: 'BSD City',
-    createdAt: '2026-01-02',
-  },
-]
+const siapColors: Record<string, string> = {
+  'siap_huni': 'bg-[#C9A961]/10 text-[#C9A961]',
+  'siap_kosong': 'bg-purple-500/10 text-purple-300',
+  'siap_huni_renovasi': 'bg-blue-500/10 text-blue-400',
+}
 
 const pageSizes = [25, 50, 100]
 
 export default function PropertyTable() {
-  const [search, setSearch] =
-    useState('')
+  const navigate = useNavigate()
+  const { role } = useRole()
 
-  const [pageSize, setPageSize] =
-    useState(50)
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 400)
 
-  const [page, setPage] =
-    useState(1)
+  const [pageSize, setPageSize] = useState(25)
+  const [page, setPage] = useState(1)
+  const [sortBy, setSortBy] = useState<'nama_property' | 'price' | 'created_at' | 'status'>('created_at')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [statusFilter, setStatusFilter] = useState<string>('')
 
-  const [sortBy, setSortBy] =
-    useState<
-      | 'nama'
-      | 'harga'
-      | 'createdAt'
-      | 'status'
-    >('nama')
+  const [properties, setProperties] = useState<Property[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [loading, setLoading] = useState(true)
 
-  const [sortOrder, setSortOrder] =
-    useState<'asc' | 'desc'>('asc')
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const filteredData = useMemo(() => {
-    const filtered =
-      dummyProperties.filter((item) =>
-        item.nama
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
-      )
+  const canCreate = hasPermission(role, 'properties:create')
+  const canEdit = hasPermission(role, 'properties:edit')
+  const canDelete = hasPermission(role, 'properties:delete')
 
-    filtered.sort((a, b) => {
-      let valueA: any =
-        a[sortBy]
-      let valueB: any =
-        b[sortBy]
-
-      if (
-        typeof valueA === 'string'
-      ) {
-        valueA =
-          valueA.toLowerCase()
-        valueB =
-          valueB.toLowerCase()
-      }
-
-      if (valueA < valueB)
-        return sortOrder === 'asc'
-          ? -1
-          : 1
-
-      if (valueA > valueB)
-        return sortOrder === 'asc'
-          ? 1
-          : -1
-
-      return 0
-    })
-
-    return filtered
-  }, [
-    search,
-    sortBy,
-    sortOrder,
-  ])
-
-  const totalPages = Math.ceil(
-    filteredData.length / pageSize
-  )
-
-  const paginatedData =
-    filteredData.slice(
-      (page - 1) * pageSize,
-      page * pageSize
-    )
-
-  function formatCurrency(
-    value: number
-  ) {
-    return new Intl.NumberFormat(
-      'id-ID',
-      {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0,
-      }
-    ).format(value)
+  function formatUkuran(lebar: number, panjang: number) {
+    return `${lebar} x ${panjang}`
   }
 
-  function handleSort(
-    key:
-      | 'nama'
-      | 'harga'
-      | 'createdAt'
-      | 'status'
-  ) {
+  const fetchProperties = useCallback(async () => {
+    setLoading(true)
+    try {
+      const filters: PropertyFilters = {
+        page,
+        limit: pageSize,
+        sortBy,
+        sortOrder,
+      }
+      if (debouncedSearch) filters.search = debouncedSearch
+      if (statusFilter) filters.status = statusFilter as Property['status']
+
+      const result = await propertyService.getAll(filters)
+      setProperties(result.data)
+      setTotalCount(result.count)
+      setTotalPages(result.totalPages)
+    } catch (err) {
+      console.error('Failed to fetch properties:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [page, pageSize, sortBy, sortOrder, debouncedSearch, statusFilter])
+
+  useEffect(() => {
+    fetchProperties()
+  }, [fetchProperties])
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch, statusFilter, pageSize])
+
+  function handleSort(key: 'nama_property' | 'price' | 'created_at' | 'status') {
     if (sortBy === key) {
-      setSortOrder((prev) =>
-        prev === 'asc'
-          ? 'desc'
-          : 'asc'
-      )
+      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
     } else {
       setSortBy(key)
       setSortOrder('asc')
     }
   }
 
+  function openDrawer(property: Property) {
+    setSelectedProperty(property)
+    setDrawerOpen(true)
+  }
+
+  function formatCurrency(value: number) {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0,
+    }).format(value)
+  }
+
+  const sortButtons = [
+    { label: 'Nama', value: 'nama_property' as const },
+    { label: 'Harga', value: 'price' as const },
+    { label: 'Tanggal', value: 'created_at' as const },
+    { label: 'Status', value: 'status' as const },
+  ]
+
+  const siapLabels: Record<string, string> = {
+    siap_huni: 'Siap Huni',
+    siap_kosong: 'Siap Kosong',
+    siap_huni_renovasi: 'Siap Huni Renovasi',
+  }
+
   return (
     <div className="space-y-6">
-
-      {/* HEADER */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
         <div>
-          <h1 className="text-2xl font-bold text-white">
-            Property Listing
-          </h1>
-
-          <p className="mt-1 text-sm text-neutral-400">
-            Daftar semua properti
-            Prime Property
-          </p>
+          <h1 className="text-2xl font-bold text-white">Property Listing</h1>
+          <p className="mt-1 text-sm text-neutral-400">Daftar semua properti Prime Property</p>
         </div>
 
-        {/* ACTIONS */}
         <div className="flex flex-col gap-3 sm:flex-row">
+          {canCreate && (
+            <button
+              onClick={() => navigate('/dashboard/properties/add')}
+              className="flex h-11 items-center justify-center gap-2 rounded-xl bg-[#C9A961] px-5 text-sm font-semibold text-black transition-all hover:brightness-110"
+            >
+              <Plus className="h-4 w-4" />
+              Tambah Property
+            </button>
+          )}
 
-          {/* SEARCH */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
-
             <input
               type="text"
               placeholder="Cari property..."
               value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
+              onChange={(e) => setSearch(e.target.value)}
               className="h-11 w-full rounded-xl border border-white/10 bg-[#202020] pl-10 pr-4 text-sm text-white outline-none transition-all placeholder:text-neutral-500 focus:border-[#C9A961] sm:w-[260px]"
             />
           </div>
 
-          {/* FILTER */}
-          <button className="flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#202020] px-4 text-sm font-medium text-white transition-all hover:border-[#C9A961]/30">
-            <SlidersHorizontal className="h-4 w-4" />
-            Filter
-          </button>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="h-11 rounded-xl border border-white/10 bg-[#202020] px-4 text-sm text-white outline-none transition-all focus:border-[#C9A961]"
+          >
+            <option value="">Semua Status</option>
+            <option value="in stock">In Stock</option>
+            <option value="sold_out">Sold Out</option>
+          </select>
         </div>
       </div>
 
-      {/* TABLE CARD */}
       <div className="overflow-hidden rounded-3xl border border-white/5 bg-[#1F1F1F] shadow-2xl shadow-black/20">
-
-        {/* TABLE TOP */}
         <div className="flex flex-col gap-4 border-b border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
-
-          {/* SORT */}
           <div className="flex flex-wrap gap-2">
-
-            {[
-              {
-                label: 'Nama',
-                value: 'nama',
-              },
-              {
-                label: 'Harga',
-                value: 'harga',
-              },
-              {
-                label: 'Tanggal',
-                value: 'createdAt',
-              },
-              {
-                label: 'Status',
-                value: 'status',
-              },
-            ].map((item) => (
+            {sortButtons.map((item) => (
               <button
                 key={item.value}
-                onClick={() =>
-                  handleSort(
-                    item.value as any
-                  )
-                }
+                onClick={() => handleSort(item.value)}
                 className={cn(
                   'flex items-center gap-2 rounded-xl border px-4 py-2 text-sm transition-all',
                   sortBy === item.value
@@ -264,274 +184,177 @@ export default function PropertyTable() {
                 )}
               >
                 {item.label}
-
                 <ChevronsUpDown className="h-4 w-4" />
               </button>
             ))}
           </div>
 
-          {/* PAGE SIZE */}
           <div className="flex items-center gap-3">
-            <span className="text-sm text-neutral-400">
-              Rows:
-            </span>
-
+            <span className="text-sm text-neutral-400">Rows:</span>
             <select
               value={pageSize}
-              onChange={(e) =>
-                setPageSize(
-                  Number(
-                    e.target.value
-                  )
-                )
-              }
+              onChange={(e) => setPageSize(Number(e.target.value))}
               className="h-10 rounded-xl border border-white/10 bg-[#252525] px-3 text-sm text-white outline-none"
             >
               {pageSizes.map((size) => (
-                <option
-                  key={size}
-                  value={size}
-                >
-                  {size}
-                </option>
+                <option key={size} value={size}>{size}</option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* TABLE */}
         <div className="overflow-x-auto">
-
           <table className="min-w-full">
-
             <thead className="border-b border-white/5 bg-[#232323]">
               <tr>
-
-                {[
-                  'Nama',
-                  'Group',
-                  'Lebar × Panjang',
-                  'Hadap',
-                  'Tipe',
-                  'Tingkat',
-                  'Harga',
-                  'Carport',
-                  'Status',
-                  'Siap',
-                  'Kawasan',
-                  'Action',
-                ].map((header) => (
-                  <th
-                    key={header}
-                    className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400"
-                  >
+                {['Nama', 'Group', 'Ukuran', 'Hadap', 'Tipe', 'Tingkat', 'Harga', 'Carport', 'Status', 'Siap', 'Kawasan', 'Action'].map((header) => (
+                  <th key={header} className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
-
             <tbody>
-
-              {paginatedData.map(
-                (property, index) => (
+              {loading ? (
+                <tr>
+                  <td colSpan={12} className="px-6 py-20 text-center text-sm text-neutral-500">
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#C9A961] border-t-transparent" />
+                      Memuat data...
+                    </div>
+                  </td>
+                </tr>
+              ) : properties.length === 0 ? (
+                <tr>
+                  <td colSpan={12} className="px-6 py-20 text-center text-sm text-neutral-500">
+                    Tidak ada properti ditemukan.
+                  </td>
+                </tr>
+              ) : (
+                properties.map((property, index) => (
                   <motion.tr
                     key={property.id}
-                    initial={{
-                      opacity: 0,
-                      y: 10,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    transition={{
-                      delay:
-                        index * 0.03,
-                    }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.03 }}
                     className="cursor-pointer border-b border-white/5 transition-all hover:bg-white/[0.03]"
+                    onClick={() => openDrawer(property)}
                   >
-
                     <td className="whitespace-nowrap px-6 py-5">
                       <div>
-                        <p className="font-medium text-white">
-                          {
-                            property.nama
-                          }
-                        </p>
-
-                        <p className="mt-1 text-xs text-neutral-500">
-                          ID #
-                          {property.id}
-                        </p>
+                        <p className="font-medium text-white">{property.nama_property}</p>
+                        <p className="mt-1 text-xs text-neutral-500">ID #{property.id.slice(0, 8)}</p>
                       </div>
                     </td>
-
-                    <td className="px-6 py-5 text-sm text-neutral-300">
-                      {property.group}
-                    </td>
-
-                    <td className="px-6 py-5 text-sm text-neutral-300">
-                      {
-                        property.ukuran
-                      }
-                    </td>
-
-                    <td className="px-6 py-5 text-sm text-neutral-300">
-                      {property.hadap}
-                    </td>
-
-                    <td className="px-6 py-5 text-sm text-neutral-300">
-                      {property.tipe}
-                    </td>
-
-                    <td className="px-6 py-5 text-sm text-neutral-300">
-                      {
-                        property.tingkat
-                      }
-                    </td>
-
+                    <td className="px-6 py-5 text-sm text-neutral-300">{property.group}</td>
+                    <td className="px-6 py-5 text-sm text-neutral-300">{formatUkuran(property.lebar, property.panjang)}</td>
+                    <td className="px-6 py-5 text-sm text-neutral-300">{property.hadap.join(', ')}</td>
+                    <td className="px-6 py-5 text-sm text-neutral-300">{property.tipe}</td>
+                    <td className="px-6 py-5 text-sm text-neutral-300">{property.tingkat}</td>
                     <td className="whitespace-nowrap px-6 py-5 text-sm font-medium text-white">
-                      {formatCurrency(
-                        property.harga
-                      )}
+                      {formatCurrency(property.price)}
                     </td>
-
                     <td className="px-6 py-5">
-                      <span
-                        className={cn(
-                          'rounded-full px-3 py-1 text-xs font-semibold',
-                          property.carport
-                            ? 'bg-emerald-500/10 text-emerald-400'
-                            : 'bg-red-500/10 text-red-400'
-                        )}
-                      >
-                        {property.carport
-                          ? 'Yes'
-                          : 'No'}
+                      <span className={cn(
+                        'rounded-full px-3 py-1 text-xs font-semibold',
+                        property.carport
+                          ? 'bg-emerald-500/10 text-emerald-400'
+                          : 'bg-red-500/10 text-red-400'
+                      )}>
+                        {property.carport ? 'Yes' : 'No'}
                       </span>
                     </td>
-
-                    {/* STATUS */}
                     <td className="px-6 py-5">
-                      <span
-                        className={cn(
-                          'rounded-full px-3 py-1 text-xs font-semibold',
-                          property.status ===
-                            'In Stock' &&
-                            'bg-emerald-500/10 text-emerald-400',
-
-                          property.status ===
-                            'Sold Out' &&
-                            'bg-[#B33A3A]/10 text-[#B33A3A]'
-                        )}
-                      >
-                        {
-                          property.status
-                        }
+                      <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', statusColors[property.status])}>
+                        {property.status === 'in stock' ? 'In Stock' : 'Sold Out'}
                       </span>
                     </td>
-
-                    {/* READY */}
                     <td className="px-6 py-5">
-                      <span
-                        className={cn(
-                          'rounded-full px-3 py-1 text-xs font-semibold',
-                          property.siap ===
-                            'Siap Huni' &&
-                            'bg-[#C9A961]/10 text-[#C9A961]',
-
-                          property.siap ===
-                            'Siap Kosong' &&
-                            'bg-purple-500/10 text-purple-300'
-                        )}
-                      >
-                        {property.siap}
+                      <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', siapColors[property.siap])}>
+                        {siapLabels[property.siap] || property.siap}
                       </span>
                     </td>
-
-                    <td className="whitespace-nowrap px-6 py-5 text-sm text-neutral-300">
-                      {
-                        property.kawasan
-                      }
-                    </td>
-
-                    {/* ACTION */}
+                    <td className="whitespace-nowrap px-6 py-5 text-sm text-neutral-300">{property.kawasan.join(', ')}</td>
                     <td className="px-6 py-5">
-                      <button className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-neutral-300 transition-all hover:border-[#C9A961]/30 hover:text-[#C9A961]">
-                        <Eye className="h-4 w-4" />
-                      </button>
+                      <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                        <button
+                          onClick={() => openDrawer(property)}
+                          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-neutral-300 transition-all hover:border-[#C9A961]/30 hover:text-[#C9A961]"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </button>
+                        {canEdit && (
+                          <button
+                            onClick={() => navigate(`/dashboard/properties/${property.id}/edit`)}
+                            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-neutral-300 transition-all hover:border-blue-500/30 hover:text-blue-400"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </button>
+                        )}
+                        {canDelete && (
+                          <button
+                            onClick={async () => {
+                              if (window.confirm('Hapus properti ini?')) {
+                                try {
+                                  await propertyService.softDelete(property.id)
+                                  fetchProperties()
+                                } catch (err) {
+                                  console.error(err)
+                                }
+                              }
+                            }}
+                            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-neutral-300 transition-all hover:border-red-500/30 hover:text-red-400"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
                     </td>
-
                   </motion.tr>
-                )
+                ))
               )}
-
             </tbody>
           </table>
         </div>
 
-        {/* FOOTER */}
         <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
-
           <p className="text-sm text-neutral-400">
-            Showing{' '}
-            <span className="text-white">
-              {
-                paginatedData.length
-              }
-            </span>{' '}
-            of{' '}
-            <span className="text-white">
-              {
-                filteredData.length
-              }
-            </span>{' '}
-            properties
+            Showing <span className="text-white">{properties.length}</span> of{' '}
+            <span className="text-white">{totalCount}</span> properties
           </p>
 
-          {/* PAGINATION */}
           <div className="flex items-center gap-2">
-
             <button
               disabled={page === 1}
-              onClick={() =>
-                setPage((prev) =>
-                  Math.max(
-                    prev - 1,
-                    1
-                  )
-                )
-              }
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-white transition-all disabled:opacity-40"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
             <div className="rounded-xl border border-white/10 bg-[#252525] px-4 py-2 text-sm text-white">
-              {page} / {totalPages}
+              {page} / {totalPages || 1}
             </div>
 
             <button
-              disabled={
-                page === totalPages
-              }
-              onClick={() =>
-                setPage((prev) =>
-                  Math.min(
-                    prev + 1,
-                    totalPages
-                  )
-                )
-              }
+              disabled={page === totalPages || totalPages === 0}
+              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-white transition-all disabled:opacity-40"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
-
           </div>
         </div>
       </div>
+
+      <PropertyDetailDrawer
+        property={selectedProperty}
+        open={drawerOpen}
+        onClose={() => {
+          setDrawerOpen(false)
+          setSelectedProperty(null)
+        }}
+      />
     </div>
   )
 }

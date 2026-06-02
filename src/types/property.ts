@@ -1,37 +1,34 @@
-export type PropertyStatus = 'available' | 'sold' | 'rented' | 'pending'
-export type PropertyType = 'house' | 'apartment' | 'condo' | 'land' | 'commercial'
+export type PropertyStatus = 'in stock' | 'sold_out'
+export type ReadyStatus = 'siap_huni' | 'siap_kosong' | 'siap_huni_renovasi'
+export type TipeProperty = 'Ruko' | 'Villa'
 
 export interface Property {
   id: string
-  title: string
-  description: string
+  nama_property: string
+  group: string
+  lebar: number
+  panjang: number
+  hadap: string[]
+  tipe: TipeProperty
+  tingkat: number
   price: number
-  type: PropertyType
+  carport: boolean
   status: PropertyStatus
-  bedrooms: number
-  bathrooms: number
-  area: number
-  address: string
-  city: string
-  province: string
-  zip_code: string
-  latitude?: number
-  longitude?: number
-  images: string[]
-  features: string[]
-  agent_id: string
+  siap: ReadyStatus
+  kawasan: string[]
+  maps_link: string | null
+  unit: string | null
+  created_by: string
+  deleted_at: string | null
   created_at: string
   updated_at: string
 }
 
 export interface PropertyFilters {
-  type?: PropertyType
+  search?: string
   status?: PropertyStatus
-  minPrice?: number
-  maxPrice?: number
-  bedrooms?: number
-  city?: string
-  province?: string
   page?: number
   limit?: number
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
 }
