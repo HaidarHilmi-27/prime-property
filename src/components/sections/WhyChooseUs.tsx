@@ -5,39 +5,39 @@ import { staggerContainer, fadeInUp } from '@/lib/animations'
 const reasons = [
   {
     icon: Award,
-    title: 'Premium Selection',
+    title: 'Koleksi Premium',
     description:
-      'Curated portfolio of the finest properties in prime locations across Indonesia.',
+      'Portofolio properti terbaik di lokasi-lokasi premium di seluruh Indonesia.',
   },
   {
     icon: Shield,
-    title: 'Trusted & Verified',
+    title: 'Terpercaya',
     description:
-      'Every property is thoroughly verified to ensure legitimacy and quality standards.',
+      'Setiap properti diverifikasi secara menyeluruh untuk menjamin legalitas dan kualitas.',
   },
   {
     icon: Users,
-    title: 'Expert Agents',
+    title: 'Agen Profesional',
     description:
-      'Our experienced agents provide personalized guidance throughout your journey.',
+      'Agen berpengalaman kami memberikan panduan personal di setiap langkah Anda.',
   },
   {
     icon: TrendingUp,
-    title: 'Best Value',
+    title: 'Nilai Terbaik',
     description:
-      'Competitive pricing and transparent deals with no hidden costs or surprises.',
+      'Harga kompetitif dan transaksi transparan tanpa biaya tersembunyi.',
   },
   {
     icon: Clock,
-    title: 'Fast Process',
+    title: 'Proses Cepat',
     description:
-      'Streamlined documentation and efficient processing for quick property transactions.',
+      'Dokumentasi yang efisien dan proses cepat untuk transaksi properti.',
   },
   {
     icon: Headphones,
-    title: '24/7 Support',
+    title: 'Dukungan 24/7',
     description:
-      'Round-the-clock customer support to assist you at every step of the way.',
+      'Dukungan pelanggan selama 24 jam untuk membantu Anda di setiap tahap.',
   },
 ]
 
@@ -56,20 +56,19 @@ export function WhyChooseUs() {
             variants={fadeInUp}
             className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
           >
-            Why Prime Property
+            Mengapa Prime Property
           </motion.span>
           <motion.h2
             variants={fadeInUp}
             className="mt-3 text-3xl font-bold text-white md:text-4xl"
           >
-            Why Choose Us
+            Mengapa Memilih Kami
           </motion.h2>
           <motion.p
             variants={fadeInUp}
             className="mx-auto mt-4 max-w-2xl text-neutral-400"
           >
-            We are committed to delivering exceptional real estate services
-            that exceed expectations and build lasting relationships.
+            Kami berkomitmen memberikan layanan properti terbaik yang melampaui harapan dan membangun hubungan jangka panjang.
           </motion.p>
         </motion.div>
 

@@ -43,16 +43,18 @@ export function Navbar() {
 
         {/* LOGO */}
         <Link to={ROUTES.HOME} className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C9A961] text-sm font-bold text-[#1A1A1A] shadow-lg shadow-[#C9A961]/20">
-            P
-          </div>
+          <img
+            src="/logo.jpg"
+            alt="PRIME PROPERTY"
+            className="h-10 w-auto"
+          />
           <div className="flex flex-col">
             <span className="text-lg font-bold tracking-wide text-white">
-              Prime
-              <span className="text-[#C9A961]">Property</span>
+              PRIME
+              <span className="text-[#C9A961]">PROPERTY</span>
             </span>
             <span className="hidden text-[10px] uppercase tracking-[0.2em] text-neutral-500 sm:block">
-              Luxury Real Estate
+              Properti Premium Mewah
             </span>
           </div>
         </Link>
@@ -93,7 +95,7 @@ export function Navbar() {
             className="ml-4 flex items-center gap-2 rounded-xl border border-[#C9A961] px-5 py-2 text-sm font-semibold text-[#C9A961] transition-all hover:bg-[#C9A961] hover:text-[#1A1A1A]"
           >
             <LogIn className="h-4 w-4" />
-            Login Agent
+            Masuk Agent
           </Link>
         </nav>
 
@@ -101,7 +103,7 @@ export function Navbar() {
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="relative z-50 flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition-all hover:border-[#C9A961]/30 hover:bg-white/10 md:hidden"
-          aria-label="Toggle Menu"
+          aria-label="Buka Menu"
         >
           {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -129,14 +131,16 @@ export function Navbar() {
               <div className="flex h-20 items-center justify-between border-b border-white/5 px-6">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C9A961] font-bold text-black">
-                    P
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                      <path d="M12 2L2 9v11h8v-8h4v8h8V9L12 2z" />
+                    </svg>
                   </div>
                   <div>
                     <h2 className="text-lg font-bold text-white">
-                      Prime
-                      <span className="text-[#C9A961]">Property</span>
+                      PRIME
+                      <span className="text-[#C9A961]">PROPERTY</span>
                     </h2>
-                    <p className="text-xs text-neutral-500">Real Estate</p>
+                    <p className="text-xs text-neutral-500">Properti Premium</p>
                   </div>
                 </div>
                 <button
@@ -185,7 +189,7 @@ export function Navbar() {
                     className="flex items-center justify-center gap-2 rounded-xl border border-[#C9A961] px-5 py-3 text-base font-semibold text-[#C9A961] transition-all hover:bg-[#C9A961] hover:text-[#1A1A1A]"
                   >
                     <LogIn className="h-5 w-5" />
-                    Login Agent
+                    Masuk Agent
                   </Link>
                 </motion.div>
               </nav>

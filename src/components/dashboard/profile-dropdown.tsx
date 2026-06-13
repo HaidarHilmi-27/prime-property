@@ -111,7 +111,7 @@ export default function ProfileDropdown() {
                 className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-red-400 transition-all hover:bg-red-500/10"
               >
                 <LogOut className="h-4 w-4" />
-                Logout
+                Keluar
               </button>
             </div>
           </motion.div>

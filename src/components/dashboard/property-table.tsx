@@ -131,7 +131,7 @@ export default function PropertyTable() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Property Listing</h1>
+          <h1 className="text-2xl font-bold text-white">Daftar Properti</h1>
           <p className="mt-1 text-sm text-neutral-400">Daftar semua properti Prime Property</p>
         </div>
 
@@ -163,8 +163,8 @@ export default function PropertyTable() {
             className="h-11 rounded-xl border border-white/10 bg-[#202020] px-4 text-sm text-white outline-none transition-all focus:border-[#C9A961]"
           >
             <option value="">Semua Status</option>
-            <option value="in stock">In Stock</option>
-            <option value="sold_out">Sold Out</option>
+            <option value="in stock">Tersedia</option>
+            <option value="sold_out">Terjual</option>
           </select>
         </div>
       </div>
@@ -190,7 +190,7 @@ export default function PropertyTable() {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm text-neutral-400">Rows:</span>
+            <span className="text-sm text-neutral-400">Baris:</span>
             <select
               value={pageSize}
               onChange={(e) => setPageSize(Number(e.target.value))}
@@ -207,7 +207,7 @@ export default function PropertyTable() {
           <table className="min-w-full">
             <thead className="border-b border-white/5 bg-[#232323]">
               <tr>
-                {['Nama', 'Group', 'Ukuran', 'Hadap', 'Tipe', 'Tingkat', 'Harga', 'Carport', 'Status', 'Siap', 'Kawasan', 'Action'].map((header) => (
+                {['Nama', 'Group', 'Ukuran', 'Hadap', 'Tipe', 'Tingkat', 'Harga', 'Carport', 'Status', 'Siap', 'Kawasan', 'Aksi'].map((header) => (
                   <th key={header} className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {header}
                   </th>
@@ -261,12 +261,12 @@ export default function PropertyTable() {
                           ? 'bg-emerald-500/10 text-emerald-400'
                           : 'bg-red-500/10 text-red-400'
                       )}>
-                        {property.carport ? 'Yes' : 'No'}
+                        {property.carport ? 'Ya' : 'Tidak'}
                       </span>
                     </td>
                     <td className="px-6 py-5">
                       <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', statusColors[property.status])}>
-                        {property.status === 'in stock' ? 'In Stock' : 'Sold Out'}
+                        {property.status === 'in stock' ? 'Tersedia' : 'Terjual'}
                       </span>
                     </td>
                     <td className="px-6 py-5">
@@ -319,8 +319,8 @@ export default function PropertyTable() {
 
         <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-neutral-400">
-            Showing <span className="text-white">{properties.length}</span> of{' '}
-            <span className="text-white">{totalCount}</span> properties
+            Menampilkan <span className="text-white">{properties.length}</span> dari{' '}
+            <span className="text-white">{totalCount}</span> properti
           </p>
 
           <div className="flex items-center gap-2">

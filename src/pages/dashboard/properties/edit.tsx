@@ -200,8 +200,8 @@ export default function EditPropertyPage() {
             </FormField>
             <FormField label="Status" error={errors.status?.message}>
               <select {...register('status')} className="input-field">
-                <option value="in stock">In Stock</option>
-                <option value="sold_out">Sold Out</option>
+                <option value="in stock">Tersedia</option>
+                <option value="sold_out">Terjual</option>
               </select>
             </FormField>
             <FormField label="Siap" error={errors.siap?.message}>

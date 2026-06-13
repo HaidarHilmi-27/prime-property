@@ -7,11 +7,11 @@ export default function DashboardPage() {
       {/* PAGE HEADER */}
       <div>
         <h1 className="text-3xl font-bold text-white">
-          Dashboard
+          Dasbor
         </h1>
 
         <p className="mt-2 text-sm text-neutral-400">
-          Manage property listings and monitor inventory.
+          Kelola daftar properti dan pantau inventaris.
         </p>
       </div>
 

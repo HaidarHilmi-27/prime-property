@@ -2,17 +2,17 @@ import { Link } from 'react-router-dom'
 import { Phone, Mail, MapPin, ChevronRight } from 'lucide-react'
 
 const quickLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Properties', to: '/properties' },
-  { label: 'About Us', to: '/about' },
-  { label: 'Contact', to: '/contact' },
+  { label: 'Beranda', to: '/' },
+  { label: 'Properti', to: '/properties' },
+  { label: 'Tentang Kami', to: '/about' },
+  { label: 'Kontak', to: '/contact' },
 ]
 
 const services = [
-  { label: 'Buy Property', to: '/properties' },
-  { label: 'Sell Property', to: '/properties' },
-  { label: 'Rent Property', to: '/properties' },
-  { label: 'Property Valuation', to: '/about' },
+  { label: 'Beli Properti', to: '/properties' },
+  { label: 'Jual Properti', to: '/properties' },
+  { label: 'Sewa Properti', to: '/properties' },
+  { label: 'Penilaian Properti', to: '/about' },
 ]
 
 export function Footer() {
@@ -22,22 +22,23 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded bg-gold-500 text-sm font-bold text-neutral-900">
-                P
+              <div className="flex h-9 w-9 items-center justify-center rounded bg-gold-500">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-neutral-900">
+                  <path d="M12 2L2 9v11h8v-8h4v8h8V9L12 2z" />
+                </svg>
               </div>
               <span className="text-xl font-bold tracking-wide text-white">
-                Prime<span className="text-gold-500">Property</span>
+                PRIME<span className="text-gold-500">PROPERTY</span>
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-neutral-400">
-              Your trusted partner in premium real estate. We help you find the
-              perfect property that matches your lifestyle and investment goals.
+              Mitra tepercaya Anda dalam properti premium. Kami membantu Anda menemukan properti sempurna yang sesuai dengan gaya hidup dan tujuan investasi Anda.
             </p>
           </div>
 
           <div>
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold-500">
-              Quick Links
+               Tautan Cepat
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -56,7 +57,7 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold-500">
-              Services
+              Layanan
             </h4>
             <ul className="space-y-3">
               {services.map((service) => (
@@ -75,7 +76,7 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold-500">
-              Contact
+              Kontak
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-neutral-400">
@@ -107,13 +108,13 @@ export function Footer() {
 
       <div className="border-t border-neutral-800">
         <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-6 text-sm text-neutral-500 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} Prime Property. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Prime Property. Hak cipta dilindungi.</p>
           <div className="flex gap-6">
             <Link to="/about" className="transition-colors hover:text-gold-500">
-              Privacy Policy
+              Kebijakan Privasi
             </Link>
             <Link to="/about" className="transition-colors hover:text-gold-500">
-              Terms of Service
+              Syarat &amp; Ketentuan
             </Link>
           </div>
         </div>

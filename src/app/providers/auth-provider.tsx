@@ -4,16 +4,15 @@ import { supabase } from '@/supabase/client'
 import { useAuthStore } from '@/store/auth-store'
 import type { User } from '@/types'
 
-function clearSupabaseStorage() {
-  const keys = Object.keys(localStorage).filter((k) => k.startsWith('sb-'))
-  keys.forEach((k) => localStorage.removeItem(k))
-}
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setUser = useAuthStore((s) => s.setUser)
 
   useEffect(() => {
+    let cancelled = false
+
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (cancelled) return
+
       if (session?.user) {
         supabase
           .from('profiles')
@@ -21,15 +20,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           .eq('id', session.user.id)
           .maybeSingle()
           .then(({ data: profile }) => {
+            if (cancelled) return
             if (profile?.is_active) {
               setUser(profile as User)
             } else {
-              clearSupabaseStorage()
               setUser(null)
             }
           })
       } else {
-        clearSupabaseStorage()
         setUser(null)
       }
     })
@@ -50,13 +48,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (profile?.is_active) {
           setUser(profile as User)
         } else {
-          clearSupabaseStorage()
           setUser(null)
         }
       }
     })
 
     return () => {
+      cancelled = true
       subscription.unsubscribe()
     }
   }, [setUser])

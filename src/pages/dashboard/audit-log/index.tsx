@@ -63,7 +63,7 @@ export default function AuditLogPage() {
           <table className="min-w-full">
             <thead className="border-b border-white/5 bg-[#232323]">
               <tr>
-                {['Action', 'Entity', 'ID', 'Changed By', 'Detail', 'Timestamp'].map((h) => (
+                {['Aksi', 'Entitas', 'ID', 'Diubah Oleh', 'Detail', 'Waktu'].map((h) => (
                   <th key={h} className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {h}
                   </th>
@@ -121,8 +121,8 @@ export default function AuditLogPage() {
 
         <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-neutral-400">
-            Showing <span className="text-white">{logs.length}</span> of{' '}
-            <span className="text-white">{totalCount}</span> logs
+            Menampilkan <span className="text-white">{logs.length}</span> dari{' '}
+            <span className="text-white">{totalCount}</span> catatan
           </p>
           <div className="flex items-center gap-2">
             <button

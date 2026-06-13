@@ -55,7 +55,7 @@ export function FeaturedProperties() {
             variants={fadeInUp}
             className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
           >
-            Featured Listings
+            Properti Unggulan
           </motion.span>
           <motion.h2
             variants={fadeInUp}
@@ -67,8 +67,7 @@ export function FeaturedProperties() {
             variants={fadeInUp}
             className="mx-auto mt-4 max-w-2xl text-neutral-500"
           >
-            Discover our hand-picked selection of the finest properties
-            available in the most sought-after locations.
+            Temukan pilihan properti terbaik kami yang tersedia di lokasi paling diminati.
           </motion.p>
         </motion.div>
 
@@ -105,12 +104,12 @@ export function FeaturedProperties() {
                 <p className="mt-1 text-sm text-neutral-500">{property.location}</p>
 
                 <div className="mt-4 flex items-center gap-4 border-t border-neutral-100 pt-4 text-xs text-neutral-500">
-                  <span className="flex items-center gap-1">
-                    <Bed className="h-3.5 w-3.5" /> {property.beds} Beds
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Bath className="h-3.5 w-3.5" /> {property.baths} Baths
-                  </span>
+                    <span className="flex items-center gap-1">
+                      <Bed className="h-3.5 w-3.5" /> {property.beds} KT
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Bath className="h-3.5 w-3.5" /> {property.baths} KM
+                    </span>
                   <span className="flex items-center gap-1">
                     <Maximize2 className="h-3.5 w-3.5" /> {property.area} m&sup2;
                   </span>
@@ -124,7 +123,7 @@ export function FeaturedProperties() {
                     to={`${ROUTES.PROPERTIES}/${property.id}`}
                     className="text-sm font-medium text-neutral-900 transition-colors hover:text-gold-500"
                   >
-                    View Details &rarr;
+                    Lihat Detail &rarr;
                   </Link>
                 </div>
               </div>
@@ -142,7 +141,7 @@ export function FeaturedProperties() {
             to={ROUTES.PROPERTIES}
             className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-700 transition-all hover:border-gold-500 hover:text-gold-600"
           >
-            View All Properties
+            Lihat Semua Properti
             <ArrowRight className="h-4 w-4" />
           </Link>
         </motion.div>

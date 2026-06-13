@@ -25,19 +25,19 @@ export function HeroSection() {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-1.5">
               <Building2 className="h-3.5 w-3.5 text-gold-500" />
               <span className="text-xs font-medium tracking-wider text-gold-500 uppercase">
-                Premium Real Estate
+                Properti Premium Mewah
               </span>
             </div>
 
             <h1 className="text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-              Discover Your{' '}
-              <span className="text-gold-500">Dream Property</span>{' '}
-              with Prime
+              Temukan{' '}
+              <span className="text-gold-500">Properti Impian</span>{' '}
+              Anda bersama Prime
             </h1>
 
             <p className="mt-6 max-w-lg text-base leading-relaxed text-neutral-400">
-              Experience unparalleled luxury and sophistication in every
-              property we offer. Your perfect home awaits with Prime Property.
+              Rasakan kemewahan dan kecanggihan yang tak tertandingi di setiap
+              properti yang kami tawarkan. Rumah impian Anda menanti bersama Prime Property.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -46,21 +46,21 @@ export function HeroSection() {
                 className="inline-flex items-center gap-2 rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-gold-400 hover:shadow-lg hover:shadow-gold-500/25"
               >
                 <Search className="h-4 w-4" />
-                Explore Properties
+                Jelajahi Properti
               </Link>
               <Link
                 to={ROUTES.ABOUT}
                 className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 px-6 py-3 text-sm font-medium text-neutral-300 transition-all hover:border-gold-500/50 hover:text-white"
               >
-                Learn More
+                Pelajari Lebih Lanjut
               </Link>
             </div>
 
             <div className="mt-12 flex items-center gap-8 border-t border-neutral-800 pt-8">
               {[
-                { value: '500+', label: 'Properties' },
-                { value: '98%', label: 'Satisfaction' },
-                { value: '50+', label: 'Awards' },
+                { value: '500+', label: 'Properti' },
+                { value: '98%', label: 'Kepuasan' },
+                { value: '50+', label: 'Penghargaan' },
               ].map((stat) => (
                 <div key={stat.label}>
                   <p className="text-2xl font-bold text-gold-500">{stat.value}</p>
@@ -82,21 +82,21 @@ export function HeroSection() {
                   <div className="text-center">
                     <Building2 className="mx-auto h-16 w-16 text-gold-500/40" />
                     <p className="mt-4 text-sm text-neutral-500">
-                      Premium Properties
+                      Properti Premium
                     </p>
                   </div>
                 </div>
               </div>
               <div className="absolute -bottom-4 -left-4 rounded-lg border border-neutral-800 bg-neutral-900/80 p-4 backdrop-blur-sm">
-                <p className="text-xs text-neutral-500">Starting from</p>
+                <p className="text-xs text-neutral-500">Mulai dari</p>
                 <p className="text-lg font-bold text-gold-500">Rp 500 Juta</p>
               </div>
               <div className="absolute -right-4 -top-4 rounded-lg border border-neutral-800 bg-neutral-900/80 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-green-500" />
-                  <p className="text-xs font-medium text-white">Available Now</p>
+                  <p className="text-xs font-medium text-white">Tersedia Sekarang</p>
                 </div>
-                <p className="mt-1 text-xs text-neutral-500">Prime locations</p>
+                <p className="mt-1 text-xs text-neutral-500">Lokasi Premium</p>
               </div>
             </div>
           </motion.div>

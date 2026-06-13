@@ -252,7 +252,7 @@ export default function AdminsPage() {
                           ? 'bg-emerald-500/10 text-emerald-400'
                           : 'bg-red-500/10 text-red-400'
                       )}>
-                        {admin.is_active ? 'Active' : 'Disabled'}
+                        {admin.is_active ? 'Aktif' : 'Nonaktif'}
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-400">
@@ -269,7 +269,7 @@ export default function AdminsPage() {
                               : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400 hover:border-emerald-500/40'
                           )}
                         >
-                          {admin.is_active ? 'Disable' : 'Enable'}
+                          {admin.is_active ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
                         <button
                           onClick={() => handleResetPassword(admin.email)}
@@ -289,8 +289,8 @@ export default function AdminsPage() {
 
         <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-neutral-400">
-            Showing <span className="text-white">{admins.length}</span> of{' '}
-            <span className="text-white">{totalCount}</span> admins
+            Menampilkan <span className="text-white">{admins.length}</span> dari{' '}
+            <span className="text-white">{totalCount}</span> admin
           </p>
           <div className="flex items-center gap-2">
             <button

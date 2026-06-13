@@ -19,6 +19,11 @@ export default function AuthPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null)
 
+  function clearSupabaseSession() {
+    const keys = Object.keys(localStorage).filter((k) => k.startsWith('sb-'))
+    keys.forEach((k) => localStorage.removeItem(k))
+  }
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
@@ -26,6 +31,9 @@ export default function AuthPage() {
     setRemainingAttempts(null)
 
     try {
+      clearSupabaseSession()
+      await supabase.auth.signOut().catch(() => {})
+
       const { user } = await authService.login(email, password)
 
       if (user) {
@@ -34,17 +42,25 @@ export default function AuthPage() {
           .select('*')
           .eq('id', user.id)
           .maybeSingle()
-        if (profile?.is_active) {
-          setUser(profile as any)
-        }
-      }
 
-      navigate('/dashboard')
+        if (!profile) {
+          throw new Error('Akun tidak ditemukan. Hubungi administrator.')
+        }
+
+        if (!profile.is_active) {
+          throw new Error('Akun Anda dinonaktifkan. Hubungi administrator.')
+        }
+
+        setUser(profile as any)
+        navigate('/dashboard')
+      }
     } catch (error: any) {
       const msg = error?.message || 'Login gagal'
       setErrorMessage(msg)
 
-      if (!msg.toLowerCase().includes('terkunci')) {
+      if (!msg.toLowerCase().includes('terkunci') &&
+          !msg.toLowerCase().includes('tidak ditemukan') &&
+          !msg.toLowerCase().includes('dinonaktifkan')) {
         try {
           const attempts = await authService.checkLockout(email)
           const left = Math.max(0, 5 - attempts - 1)
@@ -69,15 +85,17 @@ export default function AuthPage() {
 
         <div className="relative z-10 flex flex-col justify-between p-14">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#C9A961] text-xl font-bold text-black">
-              P
-            </div>
+            <img
+              src="/logo.jpg"
+              alt="PRIME PROPERTY"
+              className="h-12 w-auto"
+            />
             <div>
               <h1 className="text-2xl font-bold text-white">
-                Prime
-                <span className="text-[#C9A961]">Property</span>
+                PRIME
+                <span className="text-[#C9A961]">PROPERTY</span>
               </h1>
-              <p className="text-sm text-neutral-400">Luxury Property Management</p>
+              <p className="text-sm text-neutral-400">Manajemen Properti Mewah</p>
             </div>
           </div>
 
@@ -116,20 +134,22 @@ export default function AuthPage() {
           className="w-full max-w-md"
         >
           <div className="mb-10 flex items-center justify-center gap-3 lg:hidden">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#C9A961] text-lg font-bold text-black">
-              P
-            </div>
+            <img
+              src="/logo.jpg"
+              alt="PRIME PROPERTY"
+              className="h-11 w-auto"
+            />
             <div>
               <h1 className="text-xl font-bold text-white">
-                Prime
-                <span className="text-[#C9A961]">Property</span>
+                PRIME
+                <span className="text-[#C9A961]">PROPERTY</span>
               </h1>
             </div>
           </div>
 
           <div className="rounded-3xl border border-white/5 bg-[#202020] p-8 shadow-2xl shadow-black/30">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-white">Login Agent</h2>
+              <h2 className="text-3xl font-bold text-white">Masuk Agent</h2>
               <p className="mt-2 text-sm text-neutral-400">
                 Masuk menggunakan akun admin atau superadmin.
               </p>
@@ -195,7 +215,7 @@ export default function AuthPage() {
                 disabled={loading}
                 className="flex h-12 w-full items-center justify-center rounded-xl bg-[#C9A961] font-semibold text-black transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? 'Loading...' : 'Masuk Dashboard'}
+                {loading ? 'Memuat...' : 'Masuk Dashboard'}
               </button>
             </form>
           </div>

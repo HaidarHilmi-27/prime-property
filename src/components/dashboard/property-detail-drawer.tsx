@@ -116,7 +116,7 @@ export default function PropertyDetailDrawer({ property, open, onClose }: Props)
 
                   <div className="flex flex-wrap gap-2">
                     <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', statusColors[property.status])}>
-                      {property.status === 'in stock' ? 'In Stock' : 'Sold Out'}
+                      {property.status === 'in stock' ? 'Tersedia' : 'Terjual'}
                     </span>
                     <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', siapColors[property.siap])}>
                       {siapLabels[property.siap] || property.siap}

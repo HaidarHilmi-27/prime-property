@@ -14,7 +14,7 @@ interface FormData {
 const contactInfo = [
   {
     icon: Phone,
-    label: 'Phone',
+    label: 'Telepon',
     value: '+62 812-3456-7890',
     href: 'tel:+6281234567890',
   },
@@ -32,7 +32,7 @@ const contactInfo = [
   },
   {
     icon: Clock,
-    label: 'Working Hours',
+    label: 'Jam Kerja',
     value: 'Mon - Sat, 08:00 - 17:00',
     href: null,
   },
@@ -68,20 +68,19 @@ export function ContactForm() {
             variants={fadeInUp}
             className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
           >
-            Get In Touch
+            Hubungi Kami
           </motion.span>
           <motion.h2
             variants={fadeInUp}
             className="mt-3 text-3xl font-bold text-neutral-900 md:text-4xl"
           >
-            Contact Us
+            Kontak Kami
           </motion.h2>
           <motion.p
             variants={fadeInUp}
             className="mx-auto mt-4 max-w-2xl text-neutral-500"
           >
-            Have a question or ready to find your dream property? We are here
-            to help.
+            Punya pertanyaan atau siap mencari properti impian? Kami siap membantu.
           </motion.p>
         </motion.div>
 
@@ -97,7 +96,7 @@ export function ContactForm() {
               variants={fadeInUp}
               className="text-lg font-semibold text-neutral-900"
             >
-              Contact Information
+              Informasi Kontak
             </motion.h3>
             {contactInfo.map((item) => {
               const Icon = item.icon
@@ -150,7 +149,7 @@ export function ContactForm() {
               variants={fadeInUp}
               className="mb-6 text-lg font-semibold text-neutral-900"
             >
-              Send us a Message
+              Kirim Pesan
             </motion.h3>
 
             <div className="space-y-4">
@@ -159,7 +158,7 @@ export function ContactForm() {
                   htmlFor="name"
                   className="mb-1.5 block text-sm font-medium text-neutral-700"
                 >
-                  Full Name
+                  Nama Lengkap
                 </label>
                 <input
                   id="name"
@@ -199,7 +198,7 @@ export function ContactForm() {
                     htmlFor="phone"
                     className="mb-1.5 block text-sm font-medium text-neutral-700"
                   >
-                    Phone
+                    Telepon
                   </label>
                   <input
                     id="phone"
@@ -219,7 +218,7 @@ export function ContactForm() {
                   htmlFor="message"
                   className="mb-1.5 block text-sm font-medium text-neutral-700"
                 >
-                  Message
+                  Pesan
                 </label>
                 <textarea
                   id="message"
@@ -230,7 +229,7 @@ export function ContactForm() {
                     setForm({ ...form, message: e.target.value })
                   }
                   className="w-full resize-none rounded-lg border border-neutral-200 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder-neutral-400 transition-colors focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500"
-                  placeholder="Tell us about your property needs..."
+                  placeholder="Ceritakan kebutuhan properti Anda..."
                 />
               </motion.div>
 
@@ -240,7 +239,7 @@ export function ContactForm() {
                   className="w-full gap-2 bg-gold-500 text-neutral-900 hover:bg-gold-400"
                 >
                   <Send className="h-4 w-4" />
-                  {isSubmitted ? 'Message Sent!' : 'Send Message'}
+                  {isSubmitted ? 'Pesan Terkirim!' : 'Kirim Pesan'}
                 </Button>
               </motion.div>
             </div>

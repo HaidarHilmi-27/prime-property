@@ -12,7 +12,7 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block text-xs font-semibold tracking-[0.2em] text-gold-500 uppercase"
           >
-            Contact
+            Kontak
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -20,8 +20,8 @@ export default function ContactPage() {
             transition={{ delay: 0.1 }}
             className="mx-auto mt-4 max-w-3xl text-4xl font-bold text-white md:text-5xl"
           >
-            Let&apos;s Start a{' '}
-            <span className="text-gold-500">Conversation</span>
+            Mulai{' '}
+            <span className="text-gold-500">Percakapan</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -29,8 +29,7 @@ export default function ContactPage() {
             transition={{ delay: 0.2 }}
             className="mx-auto mt-6 max-w-2xl text-neutral-400"
           >
-            Whether you are looking to buy, sell, or rent, our team is ready
-            to assist you with expert guidance and personalized service.
+            Baik Anda ingin membeli, menjual, atau menyewa, tim kami siap membantu dengan panduan ahli dan layanan personal.
           </motion.p>
         </div>
       </section>

@@ -6,9 +6,9 @@ import { hasPermission } from '@/lib/permissions'
 import ProfileDropdown from '@/components/dashboard/profile-dropdown'
 
 const navItems = [
-  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', permission: 'properties:view' as const },
-  { label: 'Properties', icon: Building2, path: '/dashboard/properties', permission: 'properties:view' as const },
-  { label: 'Audit Log', icon: History, path: '/dashboard/audit-log', permission: 'audit:view' as const },
+  { label: 'Dasbor', icon: LayoutDashboard, path: '/dashboard', permission: 'properties:view' as const },
+  { label: 'Properti', icon: Building2, path: '/dashboard/properties', permission: 'properties:view' as const },
+  { label: 'Catatan Audit', icon: History, path: '/dashboard/audit-log', permission: 'audit:view' as const },
   { label: 'Admin', icon: Shield, path: '/dashboard/admins', permission: 'admin:manage' as const },
 ]
 
@@ -25,9 +25,16 @@ export function DashboardLayout() {
       {/* SIDEBAR */}
       <aside className="fixed left-0 top-0 z-30 h-screen w-[260px] border-r border-white/5 bg-[#1A1A1A]">
         <div className="flex h-20 items-center border-b border-white/5 px-6">
-          <Link to="/dashboard" className="text-xl font-bold">
-            Prime
-            <span className="text-[#C9A961]">Property</span>
+          <Link to="/dashboard" className="flex items-center gap-3">
+            <img
+              src="/logo.jpg"
+              alt="PRIME PROPERTY"
+              className="h-9 w-auto"
+            />
+            <span className="text-xl font-bold">
+              PRIME
+              <span className="text-[#C9A961]">PROPERTY</span>
+            </span>
           </Link>
         </div>
 
@@ -64,7 +71,7 @@ export function DashboardLayout() {
         <header className="flex h-20 items-center justify-between border-b border-white/5 bg-[#1A1A1A]/80 px-8 backdrop-blur-xl">
           <div>
             <h2 className="text-lg font-semibold">
-              Property Management
+              Manajemen Properti
             </h2>
           </div>
 
