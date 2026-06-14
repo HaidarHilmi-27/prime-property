@@ -62,7 +62,7 @@ export default function AdminsPage() {
     }
 
     try {
-      const result = await Promise.race([
+      await Promise.race([
         adminService.create(email, newPassword, newRole),
         new Promise<never>((_, reject) =>
           setTimeout(() => reject(new Error('Waktu habis, coba lagi')), 15000)

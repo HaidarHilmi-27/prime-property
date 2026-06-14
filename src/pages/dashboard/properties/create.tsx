@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft, Save } from 'lucide-react'
 import { useAuthStore } from '@/store/auth-store'
 import { propertyService } from '@/services/property-service'
@@ -25,7 +24,7 @@ const propertySchema = z.object({
   unit: z.string().optional(),
 })
 
-type PropertyFormData = z.infer<typeof propertySchema>
+type PropertyFormData = z.output<typeof propertySchema>
 
 export default function CreatePropertyPage() {
   const navigate = useNavigate()
@@ -38,8 +37,11 @@ export default function CreatePropertyPage() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<PropertyFormData>({
-    resolver: zodResolver(propertySchema),
+  } = useForm<
+    z.input<typeof propertySchema>,
+    any,
+    z.output<typeof propertySchema>
+  >({
     defaultValues: {
       lebar: 0,
       panjang: 0,
