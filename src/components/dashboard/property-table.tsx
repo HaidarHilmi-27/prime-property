@@ -153,7 +153,7 @@ export default function PropertyTable() {
               placeholder="Cari property..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-11 w-full rounded-xl border border-white/10 bg-[#202020] pl-10 pr-4 text-sm text-white outline-none transition-all placeholder:text-neutral-500 focus:border-[#C9A961] sm:w-[260px]"
+              className="h-11 w-full rounded-xl border border-white/10 bg-[#202020] pl-10 pr-4 text-sm text-white outline-none transition-all placeholder:text-neutral-500 focus:border-[#C9A961] lg:w-[260px]"
             />
           </div>
 
@@ -170,7 +170,7 @@ export default function PropertyTable() {
       </div>
 
       <div className="overflow-hidden rounded-3xl border border-white/5 bg-[#1F1F1F] shadow-2xl shadow-black/20">
-        <div className="flex flex-col gap-4 border-b border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-4 border-b border-white/5 px-3 sm:px-6 py-3 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap gap-2">
             {sortButtons.map((item) => (
               <button
@@ -208,7 +208,7 @@ export default function PropertyTable() {
             <thead className="border-b border-white/5 bg-[#232323]">
               <tr>
                 {['Nama', 'Group', 'Ukuran', 'Hadap', 'Tipe', 'Tingkat', 'Harga', 'Carport', 'Status', 'Siap', 'Kawasan', 'Aksi'].map((header) => (
-                  <th key={header} className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                  <th key={header} className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {header}
                   </th>
                 ))}
@@ -240,21 +240,21 @@ export default function PropertyTable() {
                     className="cursor-pointer border-b border-white/5 transition-all hover:bg-white/[0.03]"
                     onClick={() => openDrawer(property)}
                   >
-                    <td className="whitespace-nowrap px-6 py-5">
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-5">
                       <div>
                         <p className="font-medium text-white">{property.nama_property}</p>
                         <p className="mt-1 text-xs text-neutral-500">ID #{property.id.slice(0, 8)}</p>
                       </div>
                     </td>
-                    <td className="px-6 py-5 text-sm text-neutral-300">{property.group}</td>
-                    <td className="px-6 py-5 text-sm text-neutral-300">{formatUkuran(property.lebar, property.panjang)}</td>
-                    <td className="px-6 py-5 text-sm text-neutral-300">{property.hadap.join(', ')}</td>
-                    <td className="px-6 py-5 text-sm text-neutral-300">{property.tipe}</td>
-                    <td className="px-6 py-5 text-sm text-neutral-300">{property.tingkat}</td>
-                    <td className="whitespace-nowrap px-6 py-5 text-sm font-medium text-white">
+                    <td className="px-3 sm:px-6 py-3 sm:py-5 text-sm text-neutral-300">{property.group}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-5 text-sm text-neutral-300">{formatUkuran(property.lebar, property.panjang)}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-5 text-sm text-neutral-300">{property.hadap.join(', ')}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-5 text-sm text-neutral-300">{property.tipe}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-5 text-sm text-neutral-300">{property.tingkat}</td>
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-5 text-sm font-medium text-white">
                       {formatCurrency(property.price)}
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-3 sm:px-6 py-3 sm:py-5">
                       <span className={cn(
                         'rounded-full px-3 py-1 text-xs font-semibold',
                         property.carport
@@ -264,18 +264,18 @@ export default function PropertyTable() {
                         {property.carport ? 'Ya' : 'Tidak'}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-3 sm:px-6 py-3 sm:py-5">
                       <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', statusColors[property.status])}>
                         {property.status === 'in stock' ? 'Tersedia' : 'Terjual'}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-3 sm:px-6 py-3 sm:py-5">
                       <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', siapColors[property.siap])}>
                         {siapLabels[property.siap] || property.siap}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-5 text-sm text-neutral-300">{property.kawasan.join(', ')}</td>
-                    <td className="px-6 py-5">
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-5 text-sm text-neutral-300">{property.kawasan.join(', ')}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-5">
                       <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                         <button
                           onClick={() => openDrawer(property)}
@@ -317,7 +317,7 @@ export default function PropertyTable() {
           </table>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-4 border-t border-white/5 px-3 sm:px-6 py-3 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-neutral-400">
             Menampilkan <span className="text-white">{properties.length}</span> dari{' '}
             <span className="text-white">{totalCount}</span> properti

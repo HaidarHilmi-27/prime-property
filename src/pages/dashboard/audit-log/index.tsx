@@ -64,7 +64,7 @@ export default function AuditLogPage() {
             <thead className="border-b border-white/5 bg-[#232323]">
               <tr>
                 {['Aksi', 'Entitas', 'ID', 'Diubah Oleh', 'Detail', 'Waktu'].map((h) => (
-                  <th key={h} className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                  <th key={h} className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {h}
                   </th>
                 ))}
@@ -95,7 +95,7 @@ export default function AuditLogPage() {
                     transition={{ delay: i * 0.02 }}
                     className="border-b border-white/5 transition-all hover:bg-white/[0.02]"
                   >
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
                       <span className={cn(
                         'inline-block rounded-full px-3 py-1 text-xs font-semibold capitalize',
                         actionBadge[log.action] || 'bg-neutral-500/10 text-neutral-400'
@@ -103,13 +103,13 @@ export default function AuditLogPage() {
                         {log.action}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-300">{log.entity_type}</td>
-                    <td className="whitespace-nowrap px-6 py-4 text-xs text-neutral-500">{log.entity_id.slice(0, 12)}...</td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-300">{log.changed_by}</td>
-                    <td className="max-w-xs truncate px-6 py-4 text-xs text-neutral-500">
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-sm text-neutral-300">{log.entity_type}</td>
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-xs text-neutral-500">{log.entity_id.slice(0, 12)}...</td>
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-sm text-neutral-300">{log.changed_by}</td>
+                    <td className="max-w-xs truncate px-3 sm:px-6 py-3 sm:py-4 text-xs text-neutral-500">
                       {JSON.stringify(log.details)}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-400">
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-sm text-neutral-400">
                       {dayjs(log.created_at).format('DD/MM/YY HH:mm')}
                     </td>
                   </motion.tr>
@@ -119,7 +119,7 @@ export default function AuditLogPage() {
           </table>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-4 border-t border-white/5 px-4 sm:px-6 py-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-neutral-400">
             Menampilkan <span className="text-white">{logs.length}</span> dari{' '}
             <span className="text-white">{totalCount}</span> catatan

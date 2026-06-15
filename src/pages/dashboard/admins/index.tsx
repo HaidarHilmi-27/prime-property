@@ -132,14 +132,14 @@ export default function AdminsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Admin Management</h1>
           <p className="mt-1 text-sm text-neutral-400">Kelola admin dan superadmin</p>
         </div>
         <button
           onClick={() => setShowCreate(!showCreate)}
-          className="flex h-11 items-center justify-center gap-2 rounded-xl bg-[#C9A961] px-5 text-sm font-semibold text-black transition-all hover:brightness-110"
+          className="flex h-11 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#C9A961] px-5 text-sm font-semibold text-black transition-all hover:brightness-110"
         >
           <UserPlus className="h-4 w-4" />
           Tambah Admin
@@ -153,7 +153,7 @@ export default function AdminsPage() {
           className="rounded-3xl border border-white/5 bg-[#1F1F1F] p-6 shadow-2xl shadow-black/20"
         >
           <h3 className="mb-4 text-lg font-semibold text-white">Buat Admin Baru</h3>
-          <form onSubmit={handleCreate} className="grid gap-4 sm:grid-cols-4">
+          <form onSubmit={handleCreate} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-neutral-300">Email</label>
               <input
@@ -216,7 +216,7 @@ export default function AdminsPage() {
             <thead className="border-b border-white/5 bg-[#232323]">
               <tr>
                 {['Email', 'Role', 'Status', 'Bergabung', 'Aksi'].map((h) => (
-                  <th key={h} className="whitespace-nowrap px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                  <th key={h} className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">
                     {h}
                   </th>
                 ))}
@@ -247,7 +247,7 @@ export default function AdminsPage() {
                     transition={{ delay: i * 0.02 }}
                     className="border-b border-white/5 transition-all hover:bg-white/[0.02]"
                   >
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td className="whitespace-nowrap px-3 sm:px-6 py-3 sm:py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#C9A961]/10 text-sm font-bold text-[#C9A961]">
                           {admin.email[0].toUpperCase()}
@@ -255,7 +255,7 @@ export default function AdminsPage() {
                         <span className="text-sm text-white">{admin.email}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
                       <span className={cn(
                         'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold',
                         admin.role === 'superadmin'
@@ -266,7 +266,7 @@ export default function AdminsPage() {
                         {admin.role}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
                       <span className={cn(
                         'inline-block rounded-full px-3 py-1 text-xs font-semibold',
                         admin.is_active
@@ -279,8 +279,8 @@ export default function AdminsPage() {
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-400">
                       {new Date(admin.created_at).toLocaleDateString('id-ID')}
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <div className="flex flex-wrap items-center gap-2">
                         <button
                           onClick={() => handleToggleActive(admin.id, admin.is_active)}
                           className={cn(
@@ -316,7 +316,7 @@ export default function AdminsPage() {
           </table>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/5 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-4 border-t border-white/5 px-3 sm:px-6 py-3 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm text-neutral-400">
             Menampilkan <span className="text-white">{admins.length}</span> dari{' '}
             <span className="text-white">{totalCount}</span> admin

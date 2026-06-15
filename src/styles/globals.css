@@ -50,9 +50,14 @@
     @apply border-neutral-200;
   }
 
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-white text-neutral-900 antialiased;
     font-family: var(--font-sans);
+    overflow-x: hidden;
   }
 
   ::selection {

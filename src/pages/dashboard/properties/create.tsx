@@ -121,7 +121,7 @@ export default function CreatePropertyPage() {
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="rounded-3xl border border-white/5 bg-[#1F1F1F] p-6 shadow-2xl shadow-black/20">
+        <div className="rounded-3xl border border-white/5 bg-[#1F1F1F] p-4 sm:p-6 shadow-2xl shadow-black/20">
           <h2 className="mb-5 text-lg font-semibold text-white">Informasi Properti</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             <FormField label="Nama Properti" error={errors.nama_property?.message}>
@@ -185,7 +185,7 @@ export default function CreatePropertyPage() {
           </div>
         </div>
 
-        <div className="flex justify-end gap-3">
+        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3">
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
