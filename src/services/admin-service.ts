@@ -79,4 +79,12 @@ export const adminService = {
     })
     if (error) throw error
   },
+
+  async delete(id: string) {
+    const { error } = await supabase
+      .from('profiles')
+      .delete()
+      .eq('id', id)
+    if (error) throw error
+  },
 }

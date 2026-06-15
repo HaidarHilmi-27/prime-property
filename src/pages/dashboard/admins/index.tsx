@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ChevronLeft, ChevronRight, Shield, ShieldCheck, UserPlus, KeyRound } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { ChevronLeft, ChevronRight, Shield, ShieldCheck, UserPlus, KeyRound, Trash2 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useRole } from '@/hooks/use-role'
+import { useAuthStore } from '@/store/auth-store'
 import { adminService } from '@/services/admin-service'
+import { toast } from 'sonner'
 import type { User } from '@/types'
 
 export default function AdminsPage() {
   const { isSuperAdmin } = useRole()
+  const { user: currentUser } = useAuthStore()
   const [admins, setAdmins] = useState<User[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
@@ -20,6 +23,9 @@ export default function AdminsPage() {
   const [newRole, setNewRole] = useState<'admin' | 'superadmin'>('admin')
   const [createLoading, setCreateLoading] = useState(false)
   const [createError, setCreateError] = useState('')
+
+  const [deleteTarget, setDeleteTarget] = useState<User | null>(null)
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   const fetchAdmins = useCallback(async () => {
     setLoading(true)
@@ -95,6 +101,21 @@ export default function AdminsPage() {
       alert('Email reset password telah dikirim ke ' + email)
     } catch (err) {
       console.error(err)
+    }
+  }
+
+  async function handleDelete() {
+    if (!deleteTarget) return
+    setDeleteLoading(true)
+    try {
+      await adminService.delete(deleteTarget.id)
+      toast.success('Admin berhasil dihapus')
+      setDeleteTarget(null)
+      fetchAdmins()
+    } catch (err: any) {
+      toast.error(err?.message || 'Gagal menghapus admin')
+    } finally {
+      setDeleteLoading(false)
     }
   }
 
@@ -278,6 +299,14 @@ export default function AdminsPage() {
                           <KeyRound className="h-3 w-3" />
                           Reset
                         </button>
+                        <button
+                          onClick={() => setDeleteTarget(admin)}
+                          disabled={admin.id === currentUser?.id}
+                          className="flex h-9 items-center justify-center gap-1.5 rounded-xl border border-red-500/20 bg-red-500/10 px-3 text-xs font-medium text-red-400 transition-all hover:border-red-500/40 disabled:opacity-40"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                          Hapus
+                        </button>
                       </div>
                     </td>
                   </motion.tr>
@@ -313,6 +342,62 @@ export default function AdminsPage() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {deleteTarget && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+              onClick={() => setDeleteTarget(null)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            >
+              <div className="w-full max-w-md rounded-3xl border border-white/10 bg-[#1C1C1C] p-6 shadow-2xl shadow-black/40">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+                    <Trash2 className="h-6 w-6 text-red-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Hapus Admin</h3>
+                    <p className="text-sm text-neutral-400">
+                      Tindakan ini tidak dapat dibatalkan.
+                    </p>
+                  </div>
+                </div>
+
+                <p className="mt-4 text-sm text-neutral-300">
+                  Apakah Anda yakin ingin menghapus admin{' '}
+                  <span className="font-medium text-white">{deleteTarget.email}</span>?
+                </p>
+
+                <div className="mt-6 flex items-center justify-end gap-3">
+                  <button
+                    onClick={() => setDeleteTarget(null)}
+                    className="flex h-11 items-center justify-center rounded-xl border border-white/10 bg-[#252525] px-5 text-sm font-medium text-white transition-all hover:border-white/20"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    disabled={deleteLoading}
+                    className="flex h-11 items-center justify-center gap-2 rounded-xl bg-red-500 px-5 text-sm font-semibold text-white transition-all hover:bg-red-600 disabled:opacity-60"
+                  >
+                    {deleteLoading ? '...' : 'Ya, Hapus'}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

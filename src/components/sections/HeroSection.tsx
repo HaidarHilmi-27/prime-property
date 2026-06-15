@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Search, Building2 } from 'lucide-react'
 import { ROUTES } from '@/lib/constants'
+import heroImage from '@/assets/hero.png'
 
 export function HeroSection() {
   return (
@@ -76,24 +77,25 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
             className="hidden lg:block"
           >
-            <div className="relative">
+            <div className="relative group">
               <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-gold-500/20 to-neutral-800 p-1">
-                <div className="flex h-full w-full items-center justify-center rounded-xl bg-neutral-900">
-                  <div className="text-center">
-                    <Building2 className="mx-auto h-16 w-16 text-gold-500/40" />
-                    <p className="mt-4 text-sm text-neutral-500">
-                      Properti Premium
-                    </p>
-                  </div>
+                <div className="relative h-full w-full overflow-hidden rounded-xl">
+                  <img
+                    src={heroImage}
+                    alt="Properti Premium"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/30 via-transparent to-transparent" />
                 </div>
               </div>
-              <div className="absolute -bottom-4 -left-4 rounded-lg border border-neutral-800 bg-neutral-900/80 p-4 backdrop-blur-sm">
+              <div className="absolute -bottom-4 -left-4 rounded-lg border border-neutral-800 bg-neutral-900/90 p-4 backdrop-blur-sm shadow-xl shadow-black/20">
                 <p className="text-xs text-neutral-500">Mulai dari</p>
                 <p className="text-lg font-bold text-gold-500">Rp 500 Juta</p>
               </div>
-              <div className="absolute -right-4 -top-4 rounded-lg border border-neutral-800 bg-neutral-900/80 p-4 backdrop-blur-sm">
+              <div className="absolute -right-4 -top-4 rounded-lg border border-neutral-800 bg-neutral-900/90 p-4 backdrop-blur-sm shadow-xl shadow-black/20">
                 <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-green-500" />
+                  <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
                   <p className="text-xs font-medium text-white">Tersedia Sekarang</p>
                 </div>
                 <p className="mt-1 text-xs text-neutral-500">Lokasi Premium</p>

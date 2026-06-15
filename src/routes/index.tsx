@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 import { RootLayout } from '@/app/layouts/root-layout'
 import { AuthLayout } from '@/app/layouts/auth-layout'
@@ -48,8 +48,8 @@ export function AppRoutes() {
         {/* PROTECTED DASHBOARD */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
+            <Route index element={<Navigate to={ROUTES.DASHBOARD_PROPERTIES} replace />} />
+            <Route path={ROUTES.DASHBOARD} element={<Navigate to={ROUTES.DASHBOARD_PROPERTIES} replace />} />
             <Route path={ROUTES.DASHBOARD_PROPERTIES} element={<DashboardPage />} />
             <Route path={ROUTES.DASHBOARD_ADD_PROPERTY} element={<CreatePropertyPage />} />
             <Route path={ROUTES.DASHBOARD_EDIT_PROPERTY} element={<EditPropertyPage />} />
