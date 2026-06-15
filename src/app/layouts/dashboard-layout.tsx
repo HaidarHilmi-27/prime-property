@@ -93,7 +93,7 @@ export function DashboardLayout() {
       {/* MAIN CONTENT */}
       <main className="min-h-screen lg:ml-[260px]">
         {/* TOPBAR */}
-        <header className="flex h-20 items-center justify-between gap-4 border-b border-white/5 bg-[#1A1A1A]/80 px-4 backdrop-blur-xl lg:px-8">
+        <header className="flex h-20 items-center justify-between lg:justify-end gap-4 border-b border-white/5 bg-[#1A1A1A]/80 px-4 backdrop-blur-xl lg:px-8">
           <button
             onClick={() => setSidebarOpen(true)}
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#252525] text-white transition-all hover:bg-white/10 lg:hidden"

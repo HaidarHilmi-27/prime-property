@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Navigate,
   Outlet,
@@ -11,7 +12,18 @@ export function ProtectedRoute() {
     isLoading,
   } = useAuthStore()
 
+  const [timedOut, setTimedOut] = useState(false)
+
+  useEffect(() => {
+    if (!isLoading) return
+    const id = setTimeout(() => setTimedOut(true), 10_000)
+    return () => clearTimeout(id)
+  }, [isLoading])
+
   if (isLoading) {
+    if (timedOut) {
+      return <Navigate to="/agent/login" replace />
+    }
     return (
       <div className="flex h-screen items-center justify-center bg-black">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-gold-500 border-t-transparent" />
